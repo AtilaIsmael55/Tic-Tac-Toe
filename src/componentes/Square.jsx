@@ -1,7 +1,7 @@
 import React from 'react';
 import {useState} from 'react';
 
-const Square = () => {
+function Square ({Value}) {
     const[value, setValue]= useState(null);
     function handleClick(){
         setValue('X');

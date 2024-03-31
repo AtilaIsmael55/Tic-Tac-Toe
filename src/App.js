@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './App.css';
 import './styles.css';
 
-
+// cuadro de tablero que recibirá el valor de donde tira el jugador. 
 function Square({ value, onSquareClick }) {
   return (
     <button className="square" onClick={onSquareClick}>
@@ -10,12 +10,14 @@ function Square({ value, onSquareClick }) {
     </button>
   );
 }
-
+// Tablero completo
 function Board({ xIsNext, squares, onPlay }) {
   function handleClick(i) {
+    // función que ayudará a calcular el ganador de la partida
     if (calculateWinner(squares) || squares[i]) {
       return;
     }
+    // nextSquares determina que jugador es quien va a tirar y define si cambia el valor de la casilla de nulo a (X, O)
     const nextSquares = squares.slice();
     if (xIsNext) {
       nextSquares[i] = 'X';
@@ -24,7 +26,7 @@ function Board({ xIsNext, squares, onPlay }) {
     }
     onPlay(nextSquares);
   }
-
+// Calcula quien ha ganado de la partida 
   const winner = calculateWinner(squares);
   let status;
   if (winner) {
@@ -54,7 +56,8 @@ function Board({ xIsNext, squares, onPlay }) {
     </>
   );
 }
-
+// permite el manejo de la partida, muestra movimiento a movimiento el juego y permite guardar los cambios paso a paso. 
+// Como historial y como reseteo de la partida. Generando una matriz utilizando indice se puede controlar el desarrollo del juego
 export default function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
@@ -66,11 +69,11 @@ export default function Game() {
     setHistory(nextHistory);
     setCurrentMove(nextHistory.length - 1);
   }
-
+// Para transportarnos a un momento exacto de el juego
   function jumpTo(nextMove) {
     setCurrentMove(nextMove);
   }
-
+// Si no se determina el momento exacto de la partida, se puede ir al inicio de la partida
   const moves = history.map((squares, move) => {
     let description;
     if (move > 0) {
@@ -96,7 +99,7 @@ export default function Game() {
     </div>
   );
 }
-
+// Matriz de elementos que permiten determinar el ganador, combinaciones, las coincidencias determinan al ganador
 function calculateWinner(squares) {
   const lines = [
     [0, 1, 2],
